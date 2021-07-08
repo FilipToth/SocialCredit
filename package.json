@@ -1,0 +1,20 @@
+{
+  "name": "socialcredit",
+  "version": "1.0.0",
+  "description": "A social credit score discord bot",
+  "main": "src/index.ts",
+  "scripts": {
+    "start": "ts-node-dev --respawn --transpile-only --poll ./src/index.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^12.5.3",
+    "mongoose": "^5.13.2",
+    "ts-node": "^10.0.0",
+    "typescript": "^4.3.5"
+  },
+  "devDependencies": {
+    "ts-node-dev": "^1.1.8"
+  }
+}
