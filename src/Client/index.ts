@@ -38,6 +38,8 @@ class ExtendedClient extends Client {
                         this.aliases.set(alias, command);
                     });
                 }
+
+                console.log(command );
             }
         });
         
@@ -47,7 +49,6 @@ class ExtendedClient extends Client {
         readdirSync(eventPath).forEach(async(file) => {
             const { event } = await import(path.join(eventPath, file)); //`${eventPath}/${file}`, 
             this.events.set(event.name, event);
-            console.log(event);
             this.on(event.name, event.run.bind(null, this));
         });
     }
