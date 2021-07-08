@@ -4,7 +4,9 @@ import ConfigJson from '../config.json'
 import { AnalysisResult } from "./AnalysisResult"; 
 
 const badKeywords = new Map<string, number>([
-    ["WinnieThePooh", 10], ["FalunGong", 10], ["TaiwanIsACountry", 10], ["TiananmenSquare", 50]
+    ["WinnieThePooh", 10], ["FalunGong", 10], ["TaiwanIsACountry", 10], ["TiananmenSquare", 50],
+    ["StandWithHongKong", 15], ["FreeTibet", 15], ["TaiwanIsACountry", 10], ["uyghurgenocide", 15],
+    ["xinjianggenocide", 15], ["genocide", 5], ["DeathToXi", 100], ["DalaiLama", 10], ["AntiRightistStruggle", 15]
 ]);
 
 class ContentAnalyzer {
@@ -48,8 +50,8 @@ class ContentAnalyzer {
                 const channel = this.message.channel;
                 const mbed = new MessageEmbed()
                     .setColor("#ff0000")
-                    .setTitle("Subversive Activity")
-                    .setURL("http://mod.gov.cn/")
+                    .setTitle("Subversive Activity and Domestic Terrorism")
+                    .setURL("http://english.www.gov.cn/state_council/2014/09/09/content_281474986284154.htm")
                     .addFields(
                         { name: 'Your social credit score is lowered by', value: `${score.toString()} points`},
                     )
