@@ -12,6 +12,6 @@ export const command: Command = {
             config.debug = true;
         }
 
-        message.channel.send("Setting debug mode to: " + config.debug);
+        message.channel.send("Setting debug mode to: `" + config.debug + "`");
     }
 };
