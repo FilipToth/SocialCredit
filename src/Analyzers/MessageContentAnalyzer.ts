@@ -2,11 +2,13 @@ import { Message, MessageEmbed } from "discord.js";
 import { Config } from "../Interfaces";
 import ConfigJson from '../config.json'
 import { AnalysisResult } from "./AnalysisResult"; 
+import { createOmittedExpression } from "typescript";
 
 const badKeywords = new Map<string, number>([
     ["WinnieThePooh", 10], ["FalunGong", 10], ["TaiwanIsACountry", 10], ["TiananmenSquare", 50],
     ["StandWithHongKong", 15], ["FreeTibet", 15], ["TaiwanIsACountry", 10], ["uyghurgenocide", 15],
-    ["xinjianggenocide", 15], ["genocide", 5], ["DeathToXi", 100], ["DalaiLama", 10], ["AntiRightistStruggle", 15]
+    ["xinjianggenocide", 15], ["genocide", 5], ["DeathToXi", 100], ["DieXi", 100], ["DalaiLama", 10], 
+    ["AntiRightistStruggle", 15], ["FreeHongKong", 20], ["ChingChong", 5], ["ChongChing", 5]
 ]);
 
 class ContentAnalyzer {
@@ -18,26 +20,6 @@ class ContentAnalyzer {
         this.text = text;
         this.message = message;
         this.config = ConfigJson;
-    }
-
-    private analyze() : AnalysisResult {
-        var resultingScore: number = 0;
-        const noWhitespace = this.text.replace(/\s+/g, '');
-        const lowered = noWhitespace.toLowerCase();
-        var keywordsFound = [];
-        
-        const text = lowered;
-        badKeywords.forEach((v: number, keyword: string) => {
-            const processedKeyword = keyword.toLowerCase();
-            if (text.includes(processedKeyword))
-            {
-                resultingScore -= v;
-                keywordsFound.push(keyword);
-            }
-        });
-
-        const result = new AnalysisResult(resultingScore, keywordsFound);
-        return result;
     }
 
     public analyzeAndRespond() {
@@ -79,6 +61,37 @@ class ContentAnalyzer {
                 }
             }
         }
+    }
+
+    private analyze() : AnalysisResult {
+        var resultingScore: number = 0;
+        var keywordsFound = [];
+        
+        const text = this.processInput(this.text);
+        
+        badKeywords.forEach((v: number, keyword: string) => {
+            const processedKeyword = keyword.toLowerCase();
+            if (text.includes(processedKeyword))
+            {
+                resultingScore -= v;
+                keywordsFound.push(keyword);
+            }
+        });
+
+        const result = new AnalysisResult(resultingScore, keywordsFound);
+        return result;
+    } 
+
+    private processInput(text: string): string {
+        const regex = [/\s+/g, /\-/g, /\_/g, /\(/g, /\)/g, /\+/g, /\*/g, /\&/g, /\$/g, /\@/g, /\!/g, /\#/g, /\./g, /\,/g, /\^/g];
+        var processed = this.text
+
+        regex.forEach((expression) => {
+            processed = processed.replace(expression, "");
+        })
+        
+        processed = processed.toLowerCase();
+        return processed;
     }
 }
 
