@@ -14,7 +14,7 @@ export const command: Command = {
                 { name: 'command: ping (aliases: p)', value: `Pings the bot.`},
                 { name: 'command: toggledebug (aliases: debug, td, d)', value: `Toggles debug mode.`},
             )
-            .setFooter('For more information about bot commands,  go f urself, cause the government dont care!');;
+            .setFooter('For more information about bot commands,  go f urself, cause the government dont care!');
 
         message.channel.send(mbed);
     }
