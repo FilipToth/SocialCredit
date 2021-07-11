@@ -1,8 +1,9 @@
-import { Message, MessageEmbed } from "discord.js";
+import { Message, MessageEmbed, User } from "discord.js";
 import { Config } from "../Interfaces";
 import ConfigJson from '../config.json'
 import { AnalysisResult } from "./AnalysisResult"; 
 import { createOmittedExpression } from "typescript";
+import CreditManager from "../DB/CreditManeger";
 
 const badKeywords = new Map<string, number>([
     ["WinnieThePooh", 10], ["FalunGong", 10], ["TaiwanIsACountry", 10], ["TiananmenSquare", 50],
@@ -10,6 +11,8 @@ const badKeywords = new Map<string, number>([
     ["xinjianggenocide", 15], ["genocide", 5], ["DeathToXi", 100], ["DieXi", 100], ["DalaiLama", 10], 
     ["AntiRightistStruggle", 15], ["FreeHongKong", 20], ["ChingChong", 5], ["ChongChing", 5]
 ]);
+
+const creditManager = new CreditManager();
 
 class ContentAnalyzer {
     public text: string;
@@ -22,7 +25,7 @@ class ContentAnalyzer {
         this.config = ConfigJson;
     }
 
-    public analyzeAndRespond() {
+    public async analyzeAndRespond() {
         const result = this.analyze();
         const score = result.score;
         const keywords = result.keywordsFound;
@@ -41,6 +44,8 @@ class ContentAnalyzer {
                     .setFooter('For more information, contact your local Party Official. And go f urself, cause the govt dont care!');
 
                 channel.send(mbed);
+
+                await this.changeCredit(this.message.author, score);
 
                 if (this.config.debug)
                 {
@@ -92,6 +97,15 @@ class ContentAnalyzer {
         
         processed = processed.toLowerCase();
         return processed;
+    }
+
+    private async changeCredit(user: User, credit: number) {
+        const creditFromDB: number = await creditManager.getCredit(user);
+        this.SetCredit(user, creditFromDB + credit);
+    }
+
+    private async SetCredit(user: User, credit: number) {
+        creditManager.trySetCredit(user, credit);
     }
 }
 
