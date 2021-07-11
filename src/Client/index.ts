@@ -1,5 +1,4 @@
 import { Client, Collection } from "discord.js";
-import { connect } from 'mongoose';
 import path from 'path';
 import { readdirSync } from "fs";
 import { Config, Event, Command } from '../Interfaces';
@@ -13,14 +12,6 @@ class ExtendedClient extends Client {
 
     public async init() {
         this.login(this.config.token);
-        if (this.config.mongoURI != "")
-        {
-            connect(this.config.mongoURI, {
-                useUnifiedTopology: true,
-                useFindAndModify: true,
-                useNewUrlParser: true
-            });
-        }
 
         // commands
         const commandPath = path.join(__dirname, "..", "Commands");
