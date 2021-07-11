@@ -1,6 +1,6 @@
 export interface Config {
     token: string;
-    mongoURI: string;
+    faunaKey: string;
     prefix: string;
     debug: boolean;
 }
