@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "discord.js": "^12.5.3",
+    "faunadb": "^4.3.0",
     "mongoose": "^5.13.2",
     "ts-node": "^10.0.0",
     "typescript": "^4.3.5"
