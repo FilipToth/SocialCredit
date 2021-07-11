@@ -3,7 +3,7 @@ import ConfigJson from "../../config.json";
 
 export const command: Command = {
     name: 'toggledebug',
-    aliases: ['td', 'debug', 'd'],
+    aliases: ['td', 'debug'],
     run: async(client, message, args) => {
         const config: Config = ConfigJson;
         if (config.debug) {
