@@ -1,14 +1,14 @@
 import { Command, Config } from "../../Interfaces";
 import { MessageEmbed, User } from "discord.js";
-import FaunaConnector from "../../DB/FaunaConnector";
+import CreditManager from "../../DB/CreditManeger";
 
-const connector = new FaunaConnector();
+const creditManager = new CreditManager();
 
 export const command: Command = {
     name: 'credit',
     aliases: ['c'],
     run: async(client, message, args) => {
-        const credit = await getCredit(message.author).catch(() => console.log("failed1"));
+        const credit = await creditManager.getCredit(message.author).catch(() => console.log("failed to get the credit"));
         const mbed = new MessageEmbed()
             .setColor("#ff0000")
             .setTitle("Social Credit Report")
@@ -20,25 +20,3 @@ export const command: Command = {
         message.channel.send(mbed);
     }
 };
-
-async function getCredit(author: User): Promise<number> {
-    const collectionName = "Credit";
-    const collectionID = "303785692984508995";
-
-    const doc = await connector.getDocument(collectionName, collectionID).catch(() => console.log("failed"));
-    const data = doc.data[author.id];
-    if (data == undefined) {
-        const jsonToInsert = {};
-        jsonToInsert[`${author.id}`] = { "credit": "1000" }
-
-        console.log(jsonToInsert);
-
-        await connector.updateDocument(collectionName, collectionID, {data: jsonToInsert});
-
-        return 1000;
-    }
-
-    const credit = data["credit"];
-
-    return Number(credit);
-}
