@@ -3,6 +3,7 @@ import path from 'path';
 import { readdirSync } from "fs";
 import { Config, Event, Command } from '../Interfaces';
 import ConfigJson from '../config.json'
+import { command } from "../Commands/Guild/credit";
 
 class ExtendedClient extends Client {
     public commands: Collection<string, Command> = new Collection<string, Command>();
@@ -42,6 +43,21 @@ class ExtendedClient extends Client {
             this.events.set(event.name, event);
             this.on(event.name, event.run.bind(null, this));
         });
+
+        this.on("interactionCreate", async(interaction) => {
+            if (interaction.isButton()) {
+                if (interaction.id.includes("approve_btn #"))
+                {
+                    // approve button
+                    const index = interaction.id.replace("approve_btn #", "");
+                }
+                else if (interaction.id.includes("remove_btn #")) {
+                    // remove button
+                    const index = interaction.id.replace("approve_btn #", "");
+                }
+                interaction.reply("test");
+            }
+        })
     }
 }
 

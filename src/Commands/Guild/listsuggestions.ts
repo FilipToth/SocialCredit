@@ -1,5 +1,5 @@
 import { Command } from "../../Interfaces";
-import { Message } from "discord.js";
+import { Message, MessageActionRow, MessageButton } from "discord.js";
 import SuggestionManager from "../../DB/SuggestionManager";
 import { Suggestion } from "../../Interfaces/Suggestion";
 
@@ -13,7 +13,24 @@ export const command: Command = {
 
         let index = 1;
         suggestions.forEach(s => {
-            message.channel.send(`#${index} - ${s.keyword}`);
+            
+            let apBtn = new MessageButton()
+                .setStyle('SUCCESS')
+                .setLabel('approve')
+                .setCustomId(`approve_btn #${index}`);
+
+            let rmBtn = new MessageButton()
+                .setStyle('DANGER')
+                .setLabel('remove')
+                .setCustomId(`remove_btn #${index}`);
+
+            let row = new MessageActionRow()
+                .addComponents(apBtn, rmBtn);
+            
+            message.channel.send({ content: `#${index} - ${s.keyword}`, components: [row] });
+            if (suggestions.length > 1 && index < suggestions.length)
+                message.channel.send("----------------------------------------------------------");
+
             index++;
         });
     }

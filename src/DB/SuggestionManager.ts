@@ -38,6 +38,10 @@ class SuggestionManager {
         return suggestions;
     }
 
+    public async approveSuggestion() {
+        
+    }
+
     private uuid() {  
         var uuidValue = "", k, randomValue;  
         for (k = 0; k < 32; k++) {  
