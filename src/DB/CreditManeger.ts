@@ -24,6 +24,17 @@ class CreditManager {
         return Number(credit);
     }
 
+    public async getAllCredits(): Promise<Map<string, number>> {
+        const doc = await connector.getDocument(collectionName, collectionID).catch(() => console.log("failed to fetch credit data"));
+        var credits = new Map<string, number>();
+        
+        for (var user in doc["data"]) {
+            credits.set(user, Number(doc["data"][user]["credit"]));
+        }
+
+        return credits;
+    }
+
     public async trySetCredit(author: User, credit: number) {
         const jsonToInsert = {};    
         jsonToInsert[`${author.id}`] = { "credit": credit }
