@@ -64,9 +64,8 @@ class SuggestionManager {
         
         readFile(config.keywordsJsonPath, (err, data) => {
             let text = data.toString();
-            console.log("text: " + text);
-            
             var currentJSON: any = null;
+            
             if (text.length == 0)
                 currentJSON = {};
             else
@@ -85,7 +84,7 @@ class SuggestionManager {
           randomValue = Math.random() * 16 | 0;  
         
           if (k == 8 || k == 12 || k == 16 || k == 20) {  
-            uuidValue += "-"  
+            uuidValue += "-";
           }  
           uuidValue += (k == 12 ? 4 : (k == 16 ? (randomValue & 3 | 8) : randomValue)).toString(16);  
         }

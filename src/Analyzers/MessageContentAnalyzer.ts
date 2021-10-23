@@ -3,7 +3,9 @@ import { Config } from "../Interfaces";
 import ConfigJson from '../config.json'
 import { AnalysisResult } from "./AnalysisResult"; 
 import CreditManager from "../DB/CreditManeger";
+import { writeFileSync, readFile } from "fs";
 
+const config: Config = ConfigJson;
 const badKeywords = new Map<string, number>([
     ["WinnieThePooh", 10], ["FalunGong", 10], ["TaiwanIsACountry", 10], ["TiananmenSquare", 50],
     ["StandWithHongKong", 15], ["FreeTibet", 15], ["TaiwanIsACountry", 10], ["uyghurgenocide", 15],
@@ -16,12 +18,10 @@ const creditManager = new CreditManager();
 class ContentAnalyzer {
     public text: string;
     public message: Message;
-    public config: Config;
 
     public constructor(text: string, message: Message) {
         this.text = text;
         this.message = message;
-        this.config = ConfigJson;
     }
 
     public async analyzeAndRespond() {
@@ -46,7 +46,7 @@ class ContentAnalyzer {
 
                 await this.changeCredit(this.message.author, score);
 
-                if (this.config.debug)
+                if (config.debug)
                 {
                     var keywordsString = "";
                     var isFirst = true;
@@ -91,7 +91,7 @@ class ContentAnalyzer {
 
         regex.forEach((expression) => {
             processed = processed.replace(expression, "");
-        })
+        });
         
         processed = processed.toLowerCase();
         return processed;
@@ -107,5 +107,24 @@ class ContentAnalyzer {
         creditManager.trySetCredit(user, credit);
     }
 }
+
+function getKeywordsFromJSON() {
+    readFile(config.keywordsJsonPath, (err, data) => {
+        const text = data.toString();
+        const keywordsJSON = JSON.parse(text);
+
+        for (var uuid in keywordsJSON) {
+            var keyword: string = keywordsJSON[uuid];
+            var keywordText: string = keyword["keyword"];
+            var points: number = keyword["points"];
+            var good: boolean = keyword["good"];
+
+            if (!good)
+                badKeywords.set(keywordText, points);
+        }
+    });
+}
+
+getKeywordsFromJSON();
 
 export default ContentAnalyzer;
