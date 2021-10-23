@@ -15,11 +15,7 @@ class FaunaConnector {
     async getDocument(collectionName: string, id: string): Promise<any> {
         const {
             Get,
-            Select,
             Ref,
-            Match,
-            Index,
-            Create,
             Collection,
           } = this.faunadb.query;
 
@@ -42,7 +38,7 @@ class FaunaConnector {
             Update,
         } = this.faunadb.query;
 
-        const response = await this.client.query(
+        const response = await this.client.query( 
             Update(
                 Ref(
                     Collection(collectionName),

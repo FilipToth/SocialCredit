@@ -2,7 +2,6 @@ import { Message, MessageEmbed, User } from "discord.js";
 import { Config } from "../Interfaces";
 import ConfigJson from '../config.json'
 import { AnalysisResult } from "./AnalysisResult"; 
-import { createOmittedExpression } from "typescript";
 import CreditManager from "../DB/CreditManeger";
 
 const badKeywords = new Map<string, number>([
@@ -43,7 +42,7 @@ class ContentAnalyzer {
                     .setImage('http://mod.gov.cn/16501.files/logo.png')
                     .setFooter('For more information, contact your local Party Official. And go f urself, cause the govt dont care!');
 
-                channel.send(mbed);
+                channel.send( { embeds: [mbed] });
 
                 await this.changeCredit(this.message.author, score);
 
@@ -73,7 +72,6 @@ class ContentAnalyzer {
         var keywordsFound = [];
         
         const text = this.processInput(this.text);
-        
         badKeywords.forEach((v: number, keyword: string) => {
             const processedKeyword = keyword.toLowerCase();
             if (text.includes(processedKeyword))
@@ -89,7 +87,7 @@ class ContentAnalyzer {
 
     private processInput(text: string): string {
         const regex = [/\s+/g, /\-/g, /\_/g, /\(/g, /\)/g, /\+/g, /\*/g, /\&/g, /\$/g, /\@/g, /\!/g, /\#/g, /\./g, /\,/g, /\^/g];
-        var processed = this.text
+        var processed = this.text;
 
         regex.forEach((expression) => {
             processed = processed.replace(expression, "");
@@ -98,6 +96,7 @@ class ContentAnalyzer {
         processed = processed.toLowerCase();
         return processed;
     }
+    
 
     private async changeCredit(user: User, credit: number) {
         const creditFromDB: number = await creditManager.getCredit(user);

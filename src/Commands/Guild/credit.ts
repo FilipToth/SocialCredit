@@ -17,6 +17,6 @@ export const command: Command = {
             )
             .setFooter('For more information about your credit,  go f urself, cause the government dont care!');;
 
-        message.channel.send(mbed);
+        message.channel.send( { embeds: [mbed] } );
     }
 };

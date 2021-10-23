@@ -2,7 +2,9 @@ import { Command } from "../../Interfaces";
 import { Message, MessageActionRow, MessageButton } from "discord.js";
 import SuggestionManager from "../../DB/SuggestionManager";
 import { Suggestion } from "../../Interfaces/Suggestion";
+import SuggestionList from "../../SuggestionSystem/SuggestionListManager";
 
+const suggestionList = SuggestionList.getList();
 const manager = new SuggestionManager();
 
 export const command: Command = {
@@ -30,6 +32,8 @@ export const command: Command = {
             message.channel.send({ content: `#${index} - ${s.keyword}`, components: [row] });
             if (suggestions.length > 1 && index < suggestions.length)
                 message.channel.send("----------------------------------------------------------");
+
+            suggestionList.addSuggestion(index, s);
 
             index++;
         });

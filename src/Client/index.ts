@@ -4,6 +4,12 @@ import { readdirSync } from "fs";
 import { Config, Event, Command } from '../Interfaces';
 import ConfigJson from '../config.json'
 import { command } from "../Commands/Guild/credit";
+import SuggestionList from "../SuggestionSystem/SuggestionListManager";
+import SuggestionManager from "../DB/SuggestionManager";
+import { Suggestion } from "../Interfaces/Suggestion";
+
+const suggestionList = SuggestionList.getList();
+const suggestionManager = new SuggestionManager();
 
 class ExtendedClient extends Client {
     public commands: Collection<string, Command> = new Collection<string, Command>();
@@ -31,7 +37,7 @@ class ExtendedClient extends Client {
                     });
                 }
 
-                console.log(command );
+                console.log(command);
             }
         });
         
@@ -41,21 +47,29 @@ class ExtendedClient extends Client {
         readdirSync(eventPath).forEach(async(file) => {
             const { event } = await import(path.join(eventPath, file)); //`${eventPath}/${file}`, 
             this.events.set(event.name, event);
+            console.log(file);
             this.on(event.name, event.run.bind(null, this));
         });
 
         this.on("interactionCreate", async(interaction) => {
             if (interaction.isButton()) {
-                if (interaction.id.includes("approve_btn #"))
+                if (interaction.customId.includes("approve_btn #"))
                 {
                     // approve button
-                    const index = interaction.id.replace("approve_btn #", "");
+                    const index: number = Number.parseInt(interaction.customId.replace("approve_btn #", ""));
+                    const suggestion: Suggestion = suggestionList.getSuggestionByID(index);
+
+                    suggestionManager.approveSuggestion(suggestion);
+                    interaction.channel.send(`suggestion '${suggestion.uuid}' **approved**!`);
                 }
-                else if (interaction.id.includes("remove_btn #")) {
+                else if (interaction.customId.includes("remove_btn #")) {
                     // remove button
-                    const index = interaction.id.replace("approve_btn #", "");
+                    const index = Number.parseInt(interaction.customId.replace("remove_btn #", ""));
+                    const suggestion: Suggestion = suggestionList.getSuggestionByID(index);
+
+                    suggestionManager.removeSuggestion(suggestion.uuid)
+                    interaction.channel.send(`suggestion '${suggestion.uuid}' **removed**!`);
                 }
-                interaction.reply("test");
             }
         })
     }
