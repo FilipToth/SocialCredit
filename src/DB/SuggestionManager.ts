@@ -73,7 +73,7 @@ class SuggestionManager {
                 currentJSON = JSON.parse(text);
             
             currentJSON[suggestion.uuid] = json;
-            writeFileSync(config.keywordsJsonPath, JSON.stringify(currentJSON).replace("},", "},\n"));
+            writeFileSync(config.keywordsJsonPath, JSON.stringify(currentJSON, null, '\t'));
         });
 
         this.removeSuggestion(suggestion.uuid);
