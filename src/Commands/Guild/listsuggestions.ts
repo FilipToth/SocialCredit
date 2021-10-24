@@ -29,7 +29,8 @@ export const command: Command = {
             let row = new MessageActionRow()
                 .addComponents(apBtn, rmBtn);
             
-            message.channel.send({ content: `#${index} - ${s.keyword}`, components: [row] });
+            var good = s.good ? "Good" : "Bad";
+            message.channel.send({ content: `#${index} - ${s.keyword} - ${good} - ${s.points.toString()}`, components: [row] });
             if (suggestions.length > 1 && index < suggestions.length)
                 message.channel.send("----------------------------------------------------------");
 
