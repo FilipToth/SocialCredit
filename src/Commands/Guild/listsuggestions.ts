@@ -3,14 +3,23 @@ import { Message, MessageActionRow, MessageButton } from "discord.js";
 import SuggestionManager from "../../DB/SuggestionManager";
 import { Suggestion } from "../../Interfaces/Suggestion";
 import SuggestionList from "../../SuggestionSystem/SuggestionListManager";
+import { Admins } from "../../Interfaces/Admins";
+import AdminsJson from '../../admins.json';
 
 const suggestionList = SuggestionList.getList();
 const manager = new SuggestionManager();
+const admins: Admins = AdminsJson;
 
 export const command: Command = {
     name: 'listsuggestions',
     aliases: ['lsuggestions', 'lsg', 'listsg'],
     run: async(client, message, args) => {
+        if (!admins.admins.includes(message.author.id))
+        {
+            message.reply("You don't have permissions to do that!");
+            return;
+        }
+
         const suggestions: Suggestion[] = await manager.getSuggestions();
 
         let index = 1;
