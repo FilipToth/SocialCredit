@@ -13,6 +13,8 @@ const badKeywords = new Map<string, number>([
     ["AntiRightistStruggle", 15], ["FreeHongKong", 20], ["ChingChong", 5], ["ChongChing", 5]
 ]);
 
+const goodKeywords = new Map<string, number>([]);
+
 const creditManager = new CreditManager();
 
 class ContentAnalyzer {
@@ -30,8 +32,9 @@ class ContentAnalyzer {
         const keywords = result.keywordsFound;
 
         if (score != 0) {
+            const channel = this.message.channel;
             if (score < 0) {
-                const channel = this.message.channel;
+                
                 const mbed = new MessageEmbed()
                     .setColor("#ff0000")
                     .setTitle("Subversive Activity and Domestic Terrorism")
@@ -43,43 +46,69 @@ class ContentAnalyzer {
                     .setFooter('For more information, contact your local Party Official. And go f urself, cause the govt dont care!');
 
                 channel.send( { embeds: [mbed] });
-
-                await this.changeCredit(this.message.author, score);
-
-                if (config.debug)
-                {
-                    var keywordsString = "";
-                    var isFirst = true;
-                    keywords.forEach((keyword: string) => {
-                        
-                        if (isFirst)
-                        {
-                            keywordsString += keyword;
-                            isFirst = false;
-                        } else {
-                            keywordsString += ", " + keyword;
-                        }
-                    })
-
-                    channel.send("keywords: " + keywordsString);
-                }
             }
+            else
+            {
+                const mbed = new MessageEmbed()
+                    .setColor("#ff0000")
+                    .setTitle("Good behavior")
+                    .addFields(
+                        { name: 'Your social credit score is increased by', value: `${score.toString()} points`},
+                    )
+                    .setFooter('For more information, contact your local Party Official. And go f urself, cause the govt dont care!');
+
+                channel.send( { embeds: [mbed] });
+            }
+
+            if (config.debug)
+            {
+                var keywordsString = "";
+                var isFirst = true;
+                keywords.forEach((keyword: string) => {
+                    
+                    if (isFirst)
+                    {
+                        keywordsString += keyword;
+                        isFirst = false;
+                    } else {
+                        keywordsString += ", " + keyword;
+                    }
+                })
+
+                channel.send("keywords: " + keywordsString);
+            }
+
+            await this.changeCredit(this.message.author, score);
         }
     }
 
     private analyze() : AnalysisResult {
         var resultingScore: number = 0;
         var keywordsFound = [];
-        
+        var badKeywordsFound = false;
         const text = this.processInput(this.text);
+
         badKeywords.forEach((v: number, keyword: string) => {
             const processedKeyword = keyword.toLowerCase();
             if (text.includes(processedKeyword))
             {
+                badKeywordsFound = true;
                 resultingScore -= v;
                 keywordsFound.push(keyword);
             }
         });
+
+        if (!badKeywordsFound)
+        {
+            goodKeywords.forEach((v: number, keyword: string) => {               
+                const processedKeyword = keyword.toLowerCase();
+                if (text.includes(processedKeyword))
+                {
+                    resultingScore += v;
+                    keywordsFound.push(keyword);
+                }
+            });
+        }
 
         const result = new AnalysisResult(resultingScore, keywordsFound);
         return result;
@@ -121,6 +150,8 @@ function getKeywordsFromJSON() {
 
             if (!good)
                 badKeywords.set(keywordText, points);
+            else
+                goodKeywords.set(keywordText, points);
         }
     });
 }
