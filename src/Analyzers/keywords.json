@@ -1,1 +1,20 @@
-{}
+{
+	"59a99ce6-5d36-43f9-b904-abacd43584d1": {
+		"keyword": "ChinaIsStupid",
+		"points": 100,
+		"good": false,
+		"uuid": "59a99ce6-5d36-43f9-b904-abacd43584d1"
+	},
+	"1c7300c7-6026-41c4-91ed-4a0c58bf5024": {
+		"keyword": "JavascriptIsTheBest",
+		"points": 50,
+		"good": false,
+		"uuid": "1c7300c7-6026-41c4-91ed-4a0c58bf5024"
+	},
+	"38ce77cf-9d6f-443c-85c2-82803024d2c7": {
+		"keyword": "ILoveXi",
+		"points": 40,
+		"good": true,
+		"uuid": "38ce77cf-9d6f-443c-85c2-82803024d2c7"
+	}
+}
