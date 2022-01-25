@@ -13,7 +13,9 @@ export const event: Event = {
             // analyze message contents
             const analyzer = new ContentAnalyzer(message.content, message);
             analyzer.analyzeAndRespond();
-        }     
+
+            return;
+        }
 
         const args = message.content
             .slice(client.config.prefix.length)
