@@ -57,7 +57,7 @@ class BitField {
 
   /**
    * Freezes these bits, making them immutable.
-   * @returns {Readonly<BitField>} These bits
+   * @returns {Readonly<BitField>}
    */
   freeze() {
     return Object.freeze(this);
@@ -137,7 +137,7 @@ class BitField {
 
   /**
    * Resolves bitfields to their numeric form.
-   * @param {BitFieldResolvable} [bit] - bit(s) to resolve
+   * @param {BitFieldResolvable} [bit] bit(s) to resolve
    * @returns {number|bigint}
    */
   static resolve(bit) {

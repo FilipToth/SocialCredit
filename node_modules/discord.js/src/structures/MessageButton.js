@@ -79,10 +79,10 @@ class MessageButton extends BaseMessageComponent {
 
   /**
    * Sets the interactive status of the button
-   * @param {boolean} disabled Whether this button should be disabled
+   * @param {boolean} [disabled=true] Whether this button should be disabled
    * @returns {MessageButton}
    */
-  setDisabled(disabled) {
+  setDisabled(disabled = true) {
     this.disabled = disabled;
     return this;
   }
@@ -119,7 +119,7 @@ class MessageButton extends BaseMessageComponent {
 
   /**
    * Sets the URL of this button.
-   * <note>MessageButton#style must be LINK when setting a URL</note>
+   * <info>MessageButton#style must be LINK when setting a URL</info>
    * @param {string} url The URL of this button
    * @returns {MessageButton}
    */
@@ -130,7 +130,7 @@ class MessageButton extends BaseMessageComponent {
 
   /**
    * Transforms the button to a plain object.
-   * @returns {APIMessageComponent} The raw data of this button
+   * @returns {APIMessageButton} The raw data of this button
    */
   toJSON() {
     return {
