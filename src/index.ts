@@ -1,5 +1,10 @@
 import Client from './Client';
 import { Intents } from 'discord.js';
+import * as dotenv from 'dotenv'
+
+// initialize dotenv
+dotenv.config();
+console.log(process.env);
 
 const client = new Client({
     intents: [

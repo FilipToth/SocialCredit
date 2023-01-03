@@ -8,7 +8,7 @@ export const event: Event = {
         if (message.author.bot || !message.guild)
             return;
 
-        if (!message.content.startsWith(client.config.prefix))
+        if (!message.content.startsWith(process.env.PREFIX))
         {
             // analyze message contents
             const analyzer = new ContentAnalyzer(message.content, message);
@@ -18,7 +18,7 @@ export const event: Event = {
         }
 
         const args = message.content
-            .slice(client.config.prefix.length)
+            .slice(process.env.PREFIX.length)
             .trim()
             .split(/ +/g);
 

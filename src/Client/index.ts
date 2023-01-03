@@ -2,8 +2,6 @@ import { Client, Collection } from "discord.js";
 import path from 'path';
 import { readdirSync } from "fs";
 import { Config, Event, Command } from '../Interfaces';
-import ConfigJson from '../config.json'
-import { command } from "../Commands/Guild/credit";
 import SuggestionList from "../SuggestionSystem/SuggestionListManager";
 import SuggestionManager from "../DB/SuggestionManager";
 import { Suggestion } from "../Interfaces/Suggestion";
@@ -17,11 +15,10 @@ class ExtendedClient extends Client {
     public commands: Collection<string, Command> = new Collection<string, Command>();
     public events: Collection<string, Event> = new Collection<string, Event>();
     public aliases: Collection<string, Command> = new Collection<string, Command>();
-    public config: Config = ConfigJson;
     public admins: Admins = AdminsJson;
 
     public async init() {
-        this.login(this.config.token);
+        this.login(process.env.TOKEN);
 
         // commands
         const commandPath = path.join(__dirname, "..", "Commands");

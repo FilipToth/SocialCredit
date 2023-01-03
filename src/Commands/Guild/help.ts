@@ -15,7 +15,7 @@ export const command: Command = {
                 { name: 'command: toggledebug (aliases: debug, td)', value: `Toggles debug mode.`},
                 { name: 'command: leaderboard (aliases: ld)', value: `Shows the global social credit score leaderboard.`}
             )
-            .setFooter('For more information about bot commands,  go f urself, cause the government dont care!');
+            .setFooter('For more information about bot commands, contact your local party official!');
 
         message.channel.send({embeds: [mbed]});
     }

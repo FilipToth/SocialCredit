@@ -1,15 +1,13 @@
 import { Credentials, Get } from 'faunadb';
 import { Config } from '../Interfaces';
-import ConfigJson from '../config.json'
 
 class FaunaConnector {
     faunadb: any = null;
     client: any = null;
-    config: Config = ConfigJson;
     
     constructor() {
         this.faunadb = require('faunadb');
-        this.client = new this.faunadb.Client({ secret: this.config.faunaKey});
+        this.client = new this.faunadb.Client({ secret: process.env.FAUNA_KEY});
     }
 
     async getDocument(collectionName: string, id: string): Promise<any> {

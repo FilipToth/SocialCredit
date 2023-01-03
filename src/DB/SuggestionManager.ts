@@ -1,16 +1,11 @@
 import { User } from "discord.js";
-import { Collection } from "mongoose";
 import FaunaConnector from "./FaunaConnector";
 import { Suggestion } from "../Interfaces/Suggestion";
 import { writeFileSync, readFile } from "fs";
-import { Config } from "../Interfaces";
-import ConfigJson from "../config.json";
-import { getJSDocEnumTag } from "typescript";
 
 const connector = new FaunaConnector();
 const collectionName = "Suggestions";
 const documentID = "305570265016828484";
-const config: Config = ConfigJson;
 
 class SuggestionManager {
     public async sendSuggestion(keyword: string, good: boolean, points: number, author: User) {
@@ -62,7 +57,7 @@ class SuggestionManager {
             "uuid": suggestion.uuid,
         }
         
-        readFile(config.keywordsJsonPath, (err, data) => {
+        readFile(process.env.KEYWORDS_JSON_PATH, (err, data) => {
             let text = data.toString();
             var currentJSON: any = null;
             
@@ -72,7 +67,7 @@ class SuggestionManager {
                 currentJSON = JSON.parse(text);
             
             currentJSON[suggestion.uuid] = json;
-            writeFileSync(config.keywordsJsonPath, JSON.stringify(currentJSON, null, '\t'));
+            writeFileSync(process.env.KEYWORDS_JSON_PATH, JSON.stringify(currentJSON, null, '\t'));
         });
 
         this.removeSuggestion(suggestion.uuid);
