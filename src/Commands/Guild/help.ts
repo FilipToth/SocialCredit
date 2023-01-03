@@ -13,7 +13,8 @@ export const command: Command = {
                 { name: 'command: credit (aliases: c)', value: `Displays your current social credit score.`},
                 { name: 'command: ping (aliases: p)', value: `Pings the bot.`},
                 { name: 'command: toggledebug (aliases: debug, td)', value: `Toggles debug mode.`},
-                { name: 'command: leaderboard (aliases: ld)', value: `Shows the global social credit score leaderboard.`}
+                { name: 'command: leaderboard (aliases: ld)', value: `Shows the global social credit score leaderboard.`},
+                { name: 'command: suggest (aliases: sg)', value: `Suggests a "good" or "bad" keyword.`}
             )
             .setFooter('For more information about bot commands, contact your local party official!');
 
