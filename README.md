@@ -6,21 +6,17 @@
  
 # How to set this up yourself.
 - Clone the repo
-- Create a `config.json` file in the `./src` folder
-- the `config.json` should have these properties: token, prefix, debug, faunaKey. 
-- If you want to change the property names, remove or add some properties, edit the `Config.ts` file inside the `./Interfaces` folder.
-- Set the `token` to the auth token of your discord bot, the `prefix` to your desired prefix, if you want the bot to start in debug mode, set `debug` to true, and set the `faunaKey` to the secret key you got from your fauna user. 
-- You will then also have to create a `package.json` file.
+- Create a `.env` file in the project directory.
+- The `.env` should have these variables: TOKEN, PREFIX, DEBUG, FAUNA_KEY, and KEYWORDS_JSON_PATH 
+- Set the `TOKEN` to the auth token of your discord bot, the `PREFIX` to your desired prefix, if you want the bot to start in debug mode, set `DEBUG` to true, and set the `FAUNA_KEY` to the secret key you got from your fauna user. The `KEYWORDS_JSON_PATH` variable should be set to the path to your keywords.json for the suggestion system.
 - Then just start the app with npm, yarn or whatever you want to use.
 - Enjoy the tyranny this bot brings to your discord servers.
 
-### Example `Config.json`
-```json
-{
-    "token": "adsSADASDADADAadasdadasdadsadsasasas",
-    "prefix": "cpc?",
-    "debug": false,
-
-    "faunaKey": "sdsdsdsdadsdadsads"
-}
+### Example `.env`
+```env
+TOKEN=sssshhhh it's a secret!
+PREFIX=cpc?
+DEBUG=false
+KEYWORDS_JSON_PATH=./src/Analyzers/keywords.json
+FAUNA_KEY=faunadb for funzzziez
 ```
