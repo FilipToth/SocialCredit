@@ -14,7 +14,7 @@
 
 ### Example `.env`
 ```env
-TOKEN=sssshhhh it's a secret!
+TOKEN=sssshhhh it is a secret!
 PREFIX=cpc?
 DEBUG=false
 KEYWORDS_JSON_PATH=./src/Analyzers/keywords.json
