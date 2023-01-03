@@ -15,7 +15,7 @@ export const command: Command = {
             .addFields(
                 { name: 'Your social credit score is ', value: `${credit} points`},
             )
-            .setFooter('For more information about your credit,  go f urself, cause the government dont care!');;
+            .setFooter('For more information about your credit, contact your local party official!');;
 
         message.channel.send( { embeds: [mbed] } );
     }

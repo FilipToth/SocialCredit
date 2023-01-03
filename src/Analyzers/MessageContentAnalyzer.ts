@@ -1,11 +1,8 @@
 import { Message, MessageEmbed, User } from "discord.js";
-import { Config } from "../Interfaces";
-import ConfigJson from '../config.json'
 import { AnalysisResult } from "./AnalysisResult"; 
 import CreditManager from "../DB/CreditManeger";
-import { writeFileSync, readFile } from "fs";
+import { readFile } from "fs";
 
-const config: Config = ConfigJson;
 const badKeywords = new Map<string, number>([
     ["WinnieThePooh", 10], ["FalunGong", 10], ["TaiwanIsACountry", 10], ["TiananmenSquare", 50],
     ["StandWithHongKong", 15], ["FreeTibet", 15], ["TaiwanIsACountry", 10], ["uyghurgenocide", 15],
@@ -40,10 +37,10 @@ class ContentAnalyzer {
                     .setTitle("Subversive Activity and Domestic Terrorism")
                     .setURL("http://english.www.gov.cn/state_council/2014/09/09/content_281474986284154.htm")
                     .addFields(
-                        { name: 'Your social credit score is lowered by', value: `${score.toString()} points`},
+                        { name: 'Your social credit score is lowered by', value: `${score.toString()} points` },
                     )
                     .setImage('http://mod.gov.cn/16501.files/logo.png')
-                    .setFooter('For more information, contact your local Party Official. And go f urself, cause the govt dont care!');
+                    .setFooter('For more information, contact your local Party Official.');
 
                 channel.send( { embeds: [mbed] });
             }
@@ -53,14 +50,14 @@ class ContentAnalyzer {
                     .setColor("#ff0000")
                     .setTitle("Good behavior")
                     .addFields(
-                        { name: 'Your social credit score is increased by', value: `${score.toString()} points`},
+                        { name: 'Your social credit score is increased by', value: `${score.toString()} points` },
                     )
-                    .setFooter('For more information, contact your local Party Official. And go f urself, cause the govt dont care!');
+                    .setFooter('For more information, contact your local Party Official.');
 
                 channel.send( { embeds: [mbed] });
             }
 
-            if (config.debug)
+            if (process.env.DEBUG == "true")
             {
                 var keywordsString = "";
                 var isFirst = true;
@@ -138,7 +135,7 @@ class ContentAnalyzer {
 }
 
 function getKeywordsFromJSON() {
-    readFile(config.keywordsJsonPath, (err, data) => {
+    readFile(process.env.KEYWORDS_JSON_PATH, (err, data) => {
         const text = data.toString();
         const keywordsJSON = JSON.parse(text);
 

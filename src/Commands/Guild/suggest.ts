@@ -1,9 +1,7 @@
 import { Command, Config } from "../../Interfaces";
 import { Message } from "discord.js";
-import ConfigJson from "../../config.json";
 import SuggestionManager from "../../DB/SuggestionManager";
 
-const config: Config = ConfigJson;
 const manager = new SuggestionManager();
 
 export const command: Command = {
@@ -41,6 +39,6 @@ export const command: Command = {
 };
 
 function sendUsage(message: Message) {
-    message.channel.send(`Usage: ${config.prefix}suggest <Keyword> <GoodOrBad> <Points>`);
-    message.channel.send(`Example: \`${config.prefix}suggest WinnieThePooh Bad 10\` -Whenever someone sends a message with this keyword, it'll subtract 10 points from their account`);
+    message.channel.send(`Usage: ${process.env.PREFIX}suggest <Keyword> <GoodOrBad> <Points>`);
+    message.channel.send(`Example: \`${process.env.PREFIX}suggest WinnieThePooh Bad 10\` -Whenever someone sends a message with this keyword, it'll subtract 10 points from their account`);
 }

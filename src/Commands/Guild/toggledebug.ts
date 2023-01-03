@@ -1,17 +1,15 @@
 import { Command, Config } from "../../Interfaces";
-import ConfigJson from "../../config.json";
 
 export const command: Command = {
     name: 'toggledebug',
     aliases: ['td', 'debug'],
     run: async(client, message, args) => {
-        const config: Config = ConfigJson;
-        if (config.debug) {
-            config.debug = false;
+        if (process.env.DEBUG == "true") {
+            process.env.DEBUG = "false";
         } else {
-            config.debug = true;
+            process.env.DEBUG = "true";
         }
 
-        message.channel.send("Setting debug mode to: `" + config.debug + "`");
+        message.channel.send("Setting debug mode to: `" + process.env.DEBUG + "`");
     }
 };
